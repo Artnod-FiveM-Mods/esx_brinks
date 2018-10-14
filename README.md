@@ -1,3 +1,5 @@
+[![GitHub license](https://img.shields.io/github/license/Artnod-FiveM-Mods/esx_brinks.svg)](https://github.com/Artnod-FiveM-Mods/esx_brinks/blob/master/LICENSE) :small_blue_diamond: 
+[![Discord](https://img.shields.io/discord/436197783331012629.svg)](https://discord.gg/u7dj7Ja)  
 # esx_brinks
 
 Brinks Company for ESX
