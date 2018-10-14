@@ -7,13 +7,13 @@ Config.maxInService = -1
 Config.nameJob      = "brinks"
 Config.platePrefix  = "BRINKS"
 
-Config.storageMinGrade = 1 
-Config.armoryMinGrade  = 2 
-Config.manageMinGrade  = 2 
-Config.weeklyMinGrade  = 2 
+Config.storageMinGrade = 1
+Config.armoryMinGrade  = 2
+Config.manageMinGrade  = 3
+Config.weeklyMinGrade  = 2
 
 -- native run
-Config.itemTime     = 1500
+Config.itemTime     = 2500
 Config.itemDb_name  = "sacbillets"
 Config.itemName     = "Sac de Billets"
 Config.itemMax      = 20
@@ -39,7 +39,7 @@ Config.zones = {
   },
   vehicleSpawner = {
     enable = false,
-    gps    = {x=-6.53, y=-661.31, z=32.49},
+    gps    = {x=-4.84, y=-661.24, z=32.50},
     markerD = {type=27, drawDistance=50.0, size={x=1.5, y=1.5, z=1.5}, color={r=11, g=203, b=159} },
     blipD   = {sprite=67, display=4, scale=0.9, color=52, range=true, name=_U('vehicleSpawner_blip') }
   },
@@ -51,13 +51,13 @@ Config.zones = {
   market = {
     enable = false,
     gps    = {},
-    markerD = {type=27, drawDistance=0.0, size={x=1.5, y=1.5, z=1.5}, color={r=204, g=204, b=0} },
+    markerD = {type=27, drawDistance=50.0, size={x=1.5, y=1.5, z=1.5}, color={r=204, g=204, b=0} },
     blipD   = {route=1 }
   },
   vehicleDeleter = {
     enable = false,
     gps    = {x=-19.23, y=-672.34, z=31.35},
-    markerD = {type=27, drawDistance=100.0, size={x=3, y=3, z=3}, color={r=255, g=0, b=0} },
+    markerD = {type=27, drawDistance=100.0, size={x=3.0, y=3.0, z=3.0}, color={r=255, g=0, b=0} },
     blipD   = {sprite=67, display=4, scale=0.9, color=52, range=true, name=_U('vehicleDeleter_blip') }
   },
   bank = {
@@ -81,23 +81,23 @@ Config.zones = {
 }
 
 Config.market = {
-  {x=-46.13047 ,y=-1758.271 ,z=29.421  },
-  {x=1133.697  ,y=-982.4708 ,z=46.41581},
-  {x=1165.317  ,y=-322.3742 ,z=69.20513},
-  {x=372.9026  ,y=328.7234  ,z=103.5664},
-  {x=-1485.86  ,y=-377.6055 ,z=40.16343},
-  {x=-1221.643 ,y=-908.7925 ,z=12.32636},
-  {x=-705.5613 ,y=-913.527  ,z=19.21559},
-  {x=-2965.91  ,y=390.7833  ,z=14.04331},
-  {x=-3242.203 ,y=999.7093  ,z=11.83072},
-  {x=-1819.728 ,y=794.6349  ,z=137.0778},
-  {x=549.6006  ,y=2669.001  ,z=41.15654},
-  {x=1165.902  ,y=2711.337  ,z=37.1577 },
-  {x=1958.744  ,y=3741.852  ,z=31.34375},
-  {x=1697.708  ,y=4922.295  ,z=41.06367},
-  {x=2675.866  ,y=3280.38   ,z=54.24113},
-  {x=2555.058  ,y=380.6407  ,z=107.623 },
-  {x=1728.768  ,y=6417.453  ,z=34.03723},
+  {x=-46.13047 ,y=-1758.271 ,z=28.43 },
+  {x=1133.697  ,y=-982.4708 ,z=45.42 },
+  {x=1165.317  ,y=-322.3742 ,z=68.21 },
+  {x=372.9026  ,y=328.7234  ,z=102.58},
+  {x=-1485.86  ,y=-377.6055 ,z=39.17 },
+  {x=-1221.643 ,y=-908.7925 ,z=11.33 },
+  {x=-705.5613 ,y=-913.527  ,z=18.22 },
+  {x=-2965.91  ,y=390.7833  ,z=14.06 },
+  {x=-3242.203 ,y=999.7093  ,z=11.84 },
+  {x=-1819.728 ,y=794.6349  ,z=137.09},
+  {x=549.6006  ,y=2669.001  ,z=41.17 },
+  {x=1165.902  ,y=2711.337  ,z=37.17 },
+  {x=1958.744  ,y=3741.852  ,z=31.35 },
+  {x=1697.708  ,y=4922.295  ,z=41.08 },
+  {x=2675.866  ,y=3280.38   ,z=54.25 },
+  {x=2555.058  ,y=380.6407  ,z=107.63},
+  {x=1728.768  ,y=6417.453  ,z=34.05 },
 }
 
 Config.vehicles = {

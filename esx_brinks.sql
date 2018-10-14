@@ -23,7 +23,7 @@ INSERT INTO `job_grades` (`job_name`, `grade`, `name`, `label`, `salary`, `skin_
 ;
 
 INSERT INTO `items` (`name`, `label`, `limit`, `rare`, `can_remove`) VALUES
-	('sacbillets', 'Sac de Billets', 1, 0, 1)
+	('sacbillets', 'Sac de Billets', 20, 0, 1)
 ;
 
 CREATE TABLE IF NOT EXISTS `weekly_run` (

@@ -24,12 +24,13 @@ Locales['fr'] = {
   -- cloackroom menu
   ['take_service']         = 'Prendre son service',
   ['end_service']          = 'Terminer son service',
+  ['storage']              = 'Stockage',
+  ['boss_actions']         = 'Action Patron',
+  -- inventory menu
   ['deposit_stock']        = 'Déposer Stock',
   ['withdraw_stock']       = 'Prendre Stock',
   ['deposit_weapon']       = 'Déposer Armes',
   ['withdraw_weapon']      = 'Prendre Armes',
-  ['boss_actions']         = 'Action Patron',
-  -- inventory menu
   ['invalid_quantity']     = 'Quantité invalide',
   ['you_removed']          = 'vous avez retiré x',
   ['you_added']            = 'Vous avez ajouté x',
@@ -49,11 +50,13 @@ Locales['fr'] = {
   ['player_cannot_hold']   = 'Vous ~r~n\'avez pas~s~ assez ~y~d\'espace libre~s~ dans vos poches!',
   -- notif native run
   ['start_job']            = 'Utilisez la touche ~b~[SUPPR]~s~ pour commencer votre ~b~tournée~s~',
-  ['gps_info']             = 'La centrale vous a indiqué une superette sur votre ~y~GPS~s~',
-  ['get_market_money']     = 'Vous avez récupéré l\'argent de la ~g~superette~s~',
-  ['stop_npc']             = 'Action ~r~impossible~s~ : Rendez-vous au dépôt',
   ['cancel_mission']       = 'Vous avez ~r~annulé~s~ la mission',
-  ['sell_start']           = 'Dépôt des sacs de billets ~r~en cours...~s~',
+  ['gps_info']             = 'La centrale vous a indiqué une superette sur votre ~y~GPS~s~',
+  ['harvest_start']        = 'Collecte des sacs de billets ~g~en cours...~s~',
+  ['harvest_truck']        = 'Action ~r~impossible~s~ : Déposez les sacs de billets dans le ~b~fourgon~s~',
+  ['harvest_ok']           = 'Vous avez récupéré l\'argent de la ~g~superette~s~',
+  ['harvest_fail']         = '~r~Echec~s~ lors de la collecte des sacs de billets',
+  ['sell_start']           = 'Dépôt des sacs de billets ~g~en cours...~s~',
   ['sell_stop']            = 'Dépôt des sacs de billets ~r~arrété~s~',
   ['sell_fail']            = '~r~Echec~s~ lors du dépôt des sacs de billets',
   ['no_item_to_sell']      = 'Vous n\'avez plus de ~r~%s~s~ à déposer.',

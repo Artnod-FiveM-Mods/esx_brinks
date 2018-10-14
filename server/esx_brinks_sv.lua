@@ -1,6 +1,9 @@
 ESX = nil
 local playersWorking = {}
 
+local playersNativeHarvest = {}
+local playersNativeHarvestExit = {}
+
 local playersNativeSell = {}
 local playersNativeSellExit = {}
 
@@ -51,21 +54,46 @@ AddEventHandler('esx_brinks:takeService', function(isWorking)
 end)
 
 -- nativeRun harvest
-RegisterServerEvent('esx_brinks:harvestRun')
-AddEventHandler('esx_brinks:harvestRun', function()
-  printDebug('harvestRun')
+function nativeHarvest(source)
+  printDebug('nativeHarvest')
+  SetTimeout(Config.itemTime, function()
+    if playersNativeHarvestExit[source] then playersNativeHarvest[source] = false end
+    if playersNativeHarvest[source] == true then
+      local xPlayer = ESX.GetPlayerFromId(source)
+      local bag = xPlayer.getInventoryItem(Config.itemDb_name)
+      local quantity = bag.count
+      if quantity >= bag.limit then
+        TriggerClientEvent('esx:showNotification', source, _U('harvest_truck'))
+      else
+        xPlayer.addInventoryItem(Config.itemDb_name, Config.itemAdd)
+        TriggerClientEvent('esx:showNotification', source, _U('harvest_ok'))
+        TriggerClientEvent('esx_brinks:nextMarket', source)
+      end
+    else TriggerClientEvent('esx:showNotification', source, _U('harvest_fail')) end
+    playersNativeHarvest[source] = false
+  end)
+end
+RegisterServerEvent('esx_brinks:startHarvestRun')
+AddEventHandler('esx_brinks:startHarvestRun', function()
+  printDebug('startHarvestRun')
   local _source = source
-  local xPlayer = ESX.GetPlayerFromId(_source)
-  local quantity = xPlayer.getInventoryItem(Config.itemDb_name).count
-  if quantity >= Config.itemMax then
-    TriggerClientEvent('esx:showNotification', _source, _U('stop_npc'))
-  else
-    local amount = Config.itemAdd
-    local item = Config.itemDb_name
-    xPlayer.addInventoryItem(item, amount)
-    TriggerClientEvent('esx:showNotification', _source, _U('get_market_money'))
+  if not playersNativeHarvest[_source] then
+    TriggerClientEvent('esx:showNotification', _source, _U('harvest_start'))
+    playersNativeHarvest[_source] = true
+    playersNativeHarvestExit[_source] = false
+    nativeHarvest(_source)
+  end
+  if playersNativeHarvestExit[_source] then
+    TriggerClientEvent('esx:showNotification', _source, _U('dont_cheat'))
   end
 end)
+RegisterServerEvent('esx_brinks:stopHarvestRun')
+AddEventHandler('esx_brinks:stopHarvestRun', function()
+  printDebug('stopHarvestRun')
+  local _source = source
+  if playersNativeHarvest[_source] then playersNativeHarvestExit[_source] = true end
+end)
+
 
 -- nativeRun sell
 function nativeSell(source)
