@@ -1,14 +1,4 @@
-local Keys = {
-  ["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57,
-  ["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177,
-  ["TAB"] = 37, ["Q"] = 44, ["W"] = 32, ["E"] = 38, ["R"] = 45, ["T"] = 245, ["Y"] = 246, ["U"] = 303, ["P"] = 199, ["["] = 39, ["]"] = 40, ["ENTER"] = 18,
-  ["CAPS"] = 137, ["A"] = 34, ["S"] = 8, ["D"] = 9, ["F"] = 23, ["G"] = 47, ["H"] = 74, ["K"] = 311, ["L"] = 182,
-  ["LEFTSHIFT"] = 21, ["Z"] = 20, ["X"] = 73, ["C"] = 26, ["V"] = 0, ["B"] = 29, ["N"] = 249, ["M"] = 244, [","] = 82, ["."] = 81,
-  ["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70,
-  ["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178,
-  ["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
-  ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
-}
+local Keys = {["F6"] = 167, ["F7"] = 168, ["E"] = 38, ["DELETE"] = 178}
 local isLoading         = true
 ESX                     = nil
 local playerData        = nil
@@ -94,12 +84,12 @@ Citizen.CreateThread(function()
   end
   while true do
     Citizen.Wait(1000)
-    if playerData.job.name == Config.nameJob then
-      for i=1, #zoneList, 1 do
+    for i=1, #zoneList, 1 do
+      if playerData.job.name == Config.nameJob then
         if zoneList[i].enable and zoneList[i].blipD ~= nil and not DoesBlipExist(zoneList[i].blip) then
           zoneList[i].blip = drawBlip(zoneList[i].gps, zoneList[i].blipD)
         elseif not zoneList[i].enable and DoesBlipExist(zoneList[i].blip) then RemoveBlip(zoneList[i].blip) end
-      end
+      elseif zoneList[i].name ~= 'cloakRoom' and zoneList[i].enable then zoneList[i].enable = false end
     end
   end
 end)
@@ -180,7 +170,7 @@ AddEventHandler('esx_brinks:hasEnteredMarker', function(zone)
   end
 end)
 AddEventHandler('esx_brinks:hasExitedMarker', function(zone)
-  printDebug('hasEnteredMarker: ' .. zone.name)
+  printDebug('hasExitedMarker: ' .. zone.name)
   if zone.name == 'market' then TriggerServerEvent('esx_brinks:stopHarvestRun') 
   elseif zone.name == 'bank' then TriggerServerEvent('esx_brinks:stopSellRun') 
   elseif zone.name == 'northBank' then TriggerServerEvent('esx_brinks:stopWeeklyCollect') 
@@ -192,6 +182,7 @@ end)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
+    if IsControlJustReleased(1, Keys["F7"]) and isWorking then openMobileBrinksMenu() end
     if currentAction ~= nil then
       SetTextComponentFormat('STRING')
       AddTextComponentString(currentActionMsg)
@@ -236,7 +227,6 @@ Citizen.CreateThread(function()
         currentAction = nil
       end
     end
-    if IsControlJustReleased(1, Keys["F7"]) and isWorking then openMobileBrinksMenu() end
   end
 end)
 
@@ -646,7 +636,6 @@ AddEventHandler('esx_brinks:nextMarket', function()
   ESX.ShowNotification(_U('gps_info'))
   printDebug('nextMarket: ' .. #Config.market - #currentRun .. '/' .. #Config.market)
 end)
-
 function startNativeRun()
   printDebug('startNativeRun: ' .. #Config.market - #currentRun .. '/' .. #Config.market)
   for i=1, #zoneList, 1 do
@@ -699,7 +688,7 @@ end)
 
 Citizen.CreateThread(function()
   while Config.debug do
-    Citizen.Wait(5000)
-    printDebug(coords)
+    Citizen.Wait(10000)
+    printDebug('gps = {x='.. coords.x ..', y='.. coords.y ..', z='.. coords.z ..'}')
   end
 end)

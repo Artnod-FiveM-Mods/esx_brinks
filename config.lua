@@ -3,7 +3,6 @@ Config.Locale     = 'fr'
 Config.debug      = true
 Config.debugPrint = '[esx_brinks]'
 
-Config.maxInService = -1
 Config.nameJob      = "brinks"
 Config.platePrefix  = "BRINKS"
 
@@ -16,7 +15,6 @@ Config.weeklyMinGrade  = 2
 Config.itemTime     = 2500
 Config.itemDb_name  = "sacbillets"
 Config.itemName     = "Sac de Billets"
-Config.itemMax      = 20
 Config.itemAdd      = 1
 Config.itemRemove   = 1
 Config.itemPrice    = 100

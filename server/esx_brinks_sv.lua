@@ -21,7 +21,6 @@ end
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 TriggerEvent('esx_phone:registerNumber', 'brinks', 'Client Brinks', false, false)
 TriggerEvent('esx_society:registerSociety', 'brinks', 'Brinks', 'society_brinks', 'society_brinks', 'society_brinks', {type = 'private'})
-if Config.maxInService ~= -1 then TriggerEvent('esx_service:activateService', 'brinks', Config.maxInService) end
 
 -- take service after disconnect
 RegisterServerEvent('esx_brinks:updateIsWorking')
@@ -93,7 +92,6 @@ AddEventHandler('esx_brinks:stopHarvestRun', function()
   local _source = source
   if playersNativeHarvest[_source] then playersNativeHarvestExit[_source] = true end
 end)
-
 
 -- nativeRun sell
 function nativeSell(source)
@@ -366,8 +364,8 @@ end)
 
 -- Reset weekly run every monday at 00:00
 function weeklyTask(d, h, m)
-  printDebug('CronTask')
-  if d == 1 then
+  printDebug('weeklyTask')
+  if d == 2 then
     local request = "SELECT harvest, sell, malus FROM weekly_run WHERE company = '" .. Config.nameJob .. "'"
     local response = MySQL.Sync.fetchAll(request) -- [{"harvest":0,"malus":0,"sell":0,"start_date":0},]
     if response[1].harvest ~= 0 then
