@@ -6,11 +6,9 @@ Brinks Company for ESX
 
 # Requirements
 
-  - mysql-async,
   - esx_datastore,
   - esx_society,
   - esx_billing,
-  - esx_service,
   - esx_phone,
 
 # Getting Started
@@ -22,3 +20,8 @@ Brinks Company for ESX
 # Configuration
 
 1. Configuration only in config.lua
+
+# TODO
+
+1. Add taxes
+2. Add weight
