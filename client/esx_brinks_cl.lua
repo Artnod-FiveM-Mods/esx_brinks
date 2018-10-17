@@ -1,6 +1,6 @@
 local Keys = {["F6"] = 167, ["F7"] = 168, ["E"] = 38, ["DELETE"] = 178}
 local isLoading         = true
-local playerLoaded      = true
+local playerLoading     = true
 
 ESX                     = nil
 local playerData        = nil
@@ -38,7 +38,7 @@ Citizen.CreateThread(function()
     else zone.blip = nil end
     table.insert(zoneList, zone)
   end
-  while playerLoaded do Citizen.Wait(10) end
+  while playerLoading do Citizen.Wait(10) end
   TriggerServerEvent('esx_brinks:updateIsWorking')
   printDebug('Loaded in ' .. tostring(GetGameTimer() - startLoad) .. 'ms')
   while true do
@@ -49,14 +49,14 @@ Citizen.CreateThread(function()
     inVehicle  = IsPedInAnyVehicle(playerPed, 0)
     if isLoading then isLoading = false end
     if isWorking and playerData.job.name ~= Config.nameJob then
-      if isRunning and playerData.job.name ~= Config.nameJob then isRunning = false end
       isWorking = false
       TriggerServerEvent('esx_brinks:takeService', isWorking)
+      if isRunning and playerData.job.name ~= Config.nameJob then isRunning = false end
     end
   end
 end)
 RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function() playerLoaded = false end)
+AddEventHandler('esx:playerLoaded', function() playerLoading = false end)
 RegisterNetEvent('esx_phone:loaded')
 AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
   local specialContact = {
@@ -102,37 +102,25 @@ Citizen.CreateThread(function()
 end)
 
 -- marker
+function showMarker(zone)
+  DrawMarker(zone.markerD.type, 
+    zone.gps.x, zone.gps.y, zone.gps.z, 
+    0.0, 0.0, 0.0, 
+    0, 0.0, 0.0, 
+    zone.markerD.size.x , zone.markerD.size.y , zone.markerD.size.z, 
+    zone.markerD.color.r, zone.markerD.color.g, zone.markerD.color.b, 100, 
+    false, false, 2, false, false, false, false
+  )
+end
 Citizen.CreateThread(function()
   while isLoading do Citizen.Wait(10) end
   while true do
     Citizen.Wait(0)
     if playerData.job.name == Config.nameJob then
-      local isInMarker  = false
-      local currentZone = nil
       for i=1, #zoneList, 1 do
         if zoneList[i].enable and GetDistanceBetweenCoords(coords, zoneList[i].gps.x, zoneList[i].gps.y, zoneList[i].gps.z, true) < zoneList[i].markerD.drawDistance then
-          DrawMarker(zoneList[i].markerD.type, 
-            zoneList[i].gps.x, zoneList[i].gps.y, zoneList[i].gps.z, 
-            0.0, 0.0, 0.0, 
-            0, 0.0, 0.0, 
-            zoneList[i].markerD.size.x , zoneList[i].markerD.size.y , zoneList[i].markerD.size.z, 
-            zoneList[i].markerD.color.r, zoneList[i].markerD.color.g, zoneList[i].markerD.color.b, 100, 
-            false, false, 2, false, false, false, false
-          )
-        end 
-        if zoneList[i].enable and GetDistanceBetweenCoords(coords, zoneList[i].gps.x, zoneList[i].gps.y, zoneList[i].gps.z, true) < zoneList[i].markerD.size.x * 0.75 then
-          isInMarker    = true
-          currentZone   = zoneList[i]
+          showMarker(zoneList[i])
         end
-      end
-      if isInMarker and not alreadyInZone then
-        alreadyInZone = true
-        lastZone      = currentZone
-        TriggerEvent('esx_brinks:hasEnteredMarker', currentZone)
-      end
-      if not isInMarker and alreadyInZone then
-        alreadyInZone = false
-        TriggerEvent('esx_brinks:hasExitedMarker', lastZone)
       end
     end
   end
@@ -166,8 +154,7 @@ AddEventHandler('esx_brinks:hasEnteredMarker', function(zone)
     currentActionMsg = _U('weeklyDestruct_action')
     currentActionData = {}
   elseif zone.name == 'vehicleDeleter' then
-    local playerPed = GetPlayerPed(-1)
-    if IsPedInAnyVehicle(playerPed, false) then
+    if inVehicle then
       currentAction = 'delete_vehicle'
       currentActionMsg = _U('vehicleDeleter_action')
       currentActionData = {}
@@ -184,6 +171,33 @@ AddEventHandler('esx_brinks:hasExitedMarker', function(zone)
   currentActionMsg = ''
   ESX.UI.Menu.CloseAll()
 end)
+Citizen.CreateThread(function()
+  while isLoading do Citizen.Wait(10) end
+  while true do
+    Citizen.Wait(0)
+    if playerData.job.name == Config.nameJob then
+      local isInMarker  = false
+      local currentZone = nil
+      for i=1, #zoneList, 1 do
+        if zoneList[i].enable and GetDistanceBetweenCoords(coords, zoneList[i].gps.x, zoneList[i].gps.y, zoneList[i].gps.z, true) < zoneList[i].markerD.size.x * 0.75 then
+          isInMarker    = true
+          currentZone   = zoneList[i]
+        end
+      end
+      if isInMarker and not alreadyInZone then
+        alreadyInZone = true
+        lastZone      = currentZone
+        TriggerEvent('esx_brinks:hasEnteredMarker', currentZone)
+      end
+      if not isInMarker and alreadyInZone then
+        alreadyInZone = false
+        TriggerEvent('esx_brinks:hasExitedMarker', lastZone)
+      end
+    end
+  end
+end)
+
+-- action
 Citizen.CreateThread(function()
   while isLoading do Citizen.Wait(10) end
   while true do
