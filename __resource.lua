@@ -1,13 +1,12 @@
 description 'ESX brinks'
 
-version '0.3'
+version '0.4'
 
 dependencies {
   "mysql-async",
   "esx_datastore",
   "esx_society",
   "esx_billing",
-  "esx_service",
   "esx_phone",
 }
 
