@@ -1,5 +1,7 @@
 local Keys = {["F6"] = 167, ["F7"] = 168, ["E"] = 38, ["DELETE"] = 178}
 local isLoading         = true
+local playerLoaded      = true
+
 ESX                     = nil
 local playerData        = nil
 local coords            = nil
@@ -29,19 +31,6 @@ Citizen.CreateThread(function()
     TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
     Citizen.Wait(0)
   end
-  playerData = ESX.GetPlayerData()
-  while playerData == nil do
-    Citizen.Wait(1)
-    playerData = ESX.GetPlayerData()
-  end
-  while playerData.job == nil do
-    Citizen.Wait(1)
-    playerData = ESX.GetPlayerData()
-  end
-  while playerData.job.name == nil do
-    Citizen.Wait(1)
-    playerData = ESX.GetPlayerData()
-  end
   for k,v in pairs(Config.zones) do
     local zone = v
     zone.name = k
@@ -49,8 +38,8 @@ Citizen.CreateThread(function()
     else zone.blip = nil end
     table.insert(zoneList, zone)
   end
-  
-  isLoading = false
+  while playerLoaded do Citizen.Wait(10) end
+  TriggerServerEvent('esx_brinks:updateIsWorking')
   printDebug('Loaded in ' .. tostring(GetGameTimer() - startLoad) .. 'ms')
   while true do
     Citizen.Wait(10)
@@ -58,12 +47,16 @@ Citizen.CreateThread(function()
     playerData = ESX.GetPlayerData()
     coords     = GetEntityCoords(playerPed)
     inVehicle  = IsPedInAnyVehicle(playerPed, 0)
+    if isLoading then isLoading = false end
+    if isWorking and playerData.job.name ~= Config.nameJob then
+      if isRunning and playerData.job.name ~= Config.nameJob then isRunning = false end
+      isWorking = false
+      TriggerServerEvent('esx_brinks:takeService', isWorking)
+    end
   end
 end)
 RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-  TriggerServerEvent('esx_brinks:updateIsWorking')
-end)
+AddEventHandler('esx:playerLoaded', function() playerLoaded = false end)
 RegisterNetEvent('esx_phone:loaded')
 AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
   local specialContact = {
@@ -91,26 +84,26 @@ function drawBlip(gps, blipData)
   return blip
 end
 Citizen.CreateThread(function()
-  while isLoading do
-    Citizen.Wait(10)
-  end
+  while isLoading do Citizen.Wait(10) end
   while true do
     Citizen.Wait(1000)
     for i=1, #zoneList, 1 do
       if playerData.job.name == Config.nameJob then
-        if zoneList[i].enable and zoneList[i].blipD ~= nil and not DoesBlipExist(zoneList[i].blip) then
-          zoneList[i].blip = drawBlip(zoneList[i].gps, zoneList[i].blipD)
+        if zoneList[i].enable and not DoesBlipExist(zoneList[i].blip) then zoneList[i].blip = drawBlip(zoneList[i].gps, zoneList[i].blipD)
         elseif not zoneList[i].enable and DoesBlipExist(zoneList[i].blip) then RemoveBlip(zoneList[i].blip) end
-      elseif zoneList[i].name ~= 'cloakRoom' and zoneList[i].enable then zoneList[i].enable = false end
+      elseif zoneList[i].name ~= 'cloakRoom' and DoesBlipExist(zoneList[i].blip) then 
+        zoneList[i].enable = false
+        RemoveBlip(zoneList[i].blip)
+        zoneList[i].blip = nil
+        printDebug('remove Blip')
+      end
     end
   end
 end)
 
 -- marker
 Citizen.CreateThread(function()
-  while isLoading do
-    Citizen.Wait(10)
-  end
+  while isLoading do Citizen.Wait(10) end
   while true do
     Citizen.Wait(0)
     if playerData.job.name == Config.nameJob then
@@ -192,9 +185,7 @@ AddEventHandler('esx_brinks:hasExitedMarker', function(zone)
   ESX.UI.Menu.CloseAll()
 end)
 Citizen.CreateThread(function()
-  while isLoading do
-    Citizen.Wait(10)
-  end
+  while isLoading do Citizen.Wait(10) end
   while true do
     Citizen.Wait(0)
     if IsControlJustReleased(1, Keys["F7"]) and isWorking then openMobileBrinksMenu() end
@@ -673,6 +664,7 @@ function stopNativeJob()
   ESX.ShowNotification(_U('cancel_mission'))
 end
 Citizen.CreateThread(function()
+  while isLoading do Citizen.Wait(10) end
   while true do
     Citizen.Wait(0)
     if IsControlJustReleased(1, Keys["DELETE"]) and isWorking then
@@ -693,8 +685,9 @@ end)
 
 -- debug gps
 Citizen.CreateThread(function()
+  while isLoading do Citizen.Wait(10) end
   while Config.debug do
-    Citizen.Wait(10000)
+    Citizen.Wait(15000)
     printDebug('gps = {x='.. coords.x ..', y='.. coords.y ..', z='.. coords.z ..'}')
   end
 end)
