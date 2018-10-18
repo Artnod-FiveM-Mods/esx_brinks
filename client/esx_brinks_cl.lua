@@ -267,7 +267,7 @@ end)
 
 -- take service
 function takeService(work, value)
-  printDebug('takeService')
+  printDebug('takeService ' .. value)
   isWorking = work
   TriggerServerEvent('esx_brinks:takeService', isWorking)
   for i=1, #zoneList, 1 do
@@ -279,6 +279,7 @@ function takeService(work, value)
     then zoneList[i].enable = isWorking end
   end
   if isWorking then
+    local playerPed = GetPlayerPed(-1)
     TriggerEvent('skinchanger:getSkin', function(skin)
       if skin.sex == 0 then
         if Config.uniforms[value].male ~= nil then TriggerEvent('skinchanger:loadClothes', skin, Config.uniforms[value].male)
@@ -287,12 +288,11 @@ function takeService(work, value)
         if Config.uniforms[value].female ~= nil then TriggerEvent('skinchanger:loadClothes', skin, Config.uniforms[value].female)
         else ESX.ShowNotification(_U('no_outfit')) end
       end
-      local playerPed = GetPlayerPed(-1)
-      -- SetPedArmour(playerPed, 0)
-      ClearPedBloodDamage(playerPed)
-      ResetPedVisibleDamage(playerPed)
-      ClearPedLastWeaponDamage(playerPed)  
     end)
+    -- SetPedArmour(playerPed, 0)
+    ClearPedBloodDamage(playerPed)
+    ResetPedVisibleDamage(playerPed)
+    ClearPedLastWeaponDamage(playerPed)  
   else
     ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
       local model = nil
