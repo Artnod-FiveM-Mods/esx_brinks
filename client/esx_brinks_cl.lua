@@ -31,7 +31,27 @@ Citizen.CreateThread(function()
     TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
     Citizen.Wait(0)
   end
-  while playerLoading do Citizen.Wait(10) end
+  playerData = ESX.GetPlayerData()
+  while playerData == nil do
+    Citizen.Wait(1)
+    playerData = ESX.GetPlayerData()
+  end
+  while playerData.job == nil do
+    Citizen.Wait(1)
+    playerData = ESX.GetPlayerData()
+  end
+  while playerData.job.name == nil do
+    Citizen.Wait(1)
+    playerData = ESX.GetPlayerData()
+  end
+  while playerLoading do Citizen.Wait(100) end
+  for k,v in pairs(Config.zones) do
+    local zone = v
+    zone.name = k
+    if k == 'cloakRoom' then zone.blip = drawBlip(zone.gps, zone.blipD)
+    else zone.blip = nil end
+    table.insert(zoneList, zone)
+  end
   TriggerServerEvent('esx_brinks:updateIsWorking')
   printDebug('Loaded in ' .. tostring(GetGameTimer() - startLoad) .. 'ms')
   while true do
@@ -50,26 +70,6 @@ Citizen.CreateThread(function()
 end)
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function()
-  playerData = ESX.GetPlayerData()
-  while playerData == nil do
-    Citizen.Wait(1)
-    playerData = ESX.GetPlayerData()
-  end
-  while playerData.job == nil do
-    Citizen.Wait(1)
-    playerData = ESX.GetPlayerData()
-  end
-  while playerData.job.name == nil do
-    Citizen.Wait(1)
-    playerData = ESX.GetPlayerData()
-  end
-  for k,v in pairs(Config.zones) do
-    local zone = v
-    zone.name = k
-    if k == 'cloakRoom' then zone.blip = drawBlip(zone.gps, zone.blipD)
-    else zone.blip = nil end
-    table.insert(zoneList, zone)
-  end
   playerLoading = false 
 end)
 RegisterNetEvent('esx_phone:loaded')

@@ -1,15 +1,15 @@
-[![GitHub license](https://img.shields.io/github/license/Artnod-FiveM-Mods/esx_brinks.svg)](https://github.com/Artnod-FiveM-Mods/esx_brinks/blob/master/LICENSE) :small_blue_diamond: 
-[![Discord](https://img.shields.io/discord/436197783331012629.svg)](https://discord.gg/u7dj7Ja)  
 # esx_brinks
 
 Brinks Company for ESX
 
 # Requirements
 
+  - mysql-async,
   - esx_datastore,
   - esx_society,
   - esx_billing,
-  - esx_phone
+  - esx_service,
+  - esx_phone,
 
 # Getting Started
 
@@ -20,8 +20,3 @@ Brinks Company for ESX
 # Configuration
 
 1. Configuration only in config.lua
-
-# TODO
-
-1. Add taxes
-2. Add weight
