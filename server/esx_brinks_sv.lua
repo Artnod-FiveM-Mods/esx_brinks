@@ -1,5 +1,4 @@
 ESX = nil
-local playersWorking = {}
 
 local playersNativeHarvest = {}
 local playersNativeHarvestExit = {}
@@ -21,36 +20,6 @@ end
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 TriggerEvent('esx_phone:registerNumber', 'brinks', 'Client Brinks', false, false)
 TriggerEvent('esx_society:registerSociety', 'brinks', 'Brinks', 'society_brinks', 'society_brinks', 'society_brinks', {type = 'private'})
-
--- take service after disconnect
-RegisterServerEvent('esx_brinks:updateIsWorking')
-AddEventHandler('esx_brinks:updateIsWorking', function()
-  printDebug('updateIsWorking')
-  local _source = source
-  local playerName = GetPlayerName(_source)
-  for i=1, #playersWorking, 1 do
-    if playerName == playersWorking[i].name and playersWorking[i].isWorking then
-      TriggerClientEvent('esx_brinks:updateService', _source, true)
-      break
-    end
-  end
-  
-end)
-RegisterServerEvent('esx_brinks:takeService')
-AddEventHandler('esx_brinks:takeService', function(isWorking)
-  printDebug('takeService')
-  local _source = source
-  local playerName = GetPlayerName(_source)
-  local updated = false
-  for i=1, #playersWorking, 1 do
-    if playerName == playersWorking[i].name then
-      playersWorking[i].isWorking = isWorking
-      updated = true
-      break 
-    end
-  end
-  if not updated then table.insert(playersWorking, {name=playerName, isWorking=isWorking}) end
-end)
 
 -- nativeRun harvest
 function nativeHarvest(source)

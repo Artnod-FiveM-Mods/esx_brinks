@@ -1,6 +1,5 @@
 local Keys = {["F6"] = 167, ["F7"] = 168, ["E"] = 38, ["DELETE"] = 178}
 local isLoading         = true
-local playerLoading     = true
 
 ESX                     = nil
 local playerData        = nil
@@ -44,7 +43,6 @@ Citizen.CreateThread(function()
     Citizen.Wait(1)
     playerData = ESX.GetPlayerData()
   end
-  while playerLoading do Citizen.Wait(100) end
   for k,v in pairs(Config.zones) do
     local zone = v
     zone.name = k
@@ -52,7 +50,7 @@ Citizen.CreateThread(function()
     else zone.blip = nil end
     table.insert(zoneList, zone)
   end
-  TriggerServerEvent('esx_brinks:updateIsWorking')
+  isLoading = false
   printDebug('Loaded in ' .. tostring(GetGameTimer() - startLoad) .. 'ms')
   while true do
     Citizen.Wait(10)
@@ -65,12 +63,7 @@ Citizen.CreateThread(function()
       TriggerServerEvent('esx_brinks:takeService', isWorking)
       if isRunning and playerData.job.name ~= Config.nameJob then isRunning = false end
     end
-    if isLoading then isLoading = false end
   end
-end)
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function()
-  playerLoading = false 
 end)
 RegisterNetEvent('esx_phone:loaded')
 AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
@@ -269,7 +262,6 @@ end)
 function takeService(work, value)
   printDebug('takeService ' .. value)
   isWorking = work
-  TriggerServerEvent('esx_brinks:takeService', isWorking)
   for i=1, #zoneList, 1 do
     if zoneList[i].name == 'vehicleSpawner' or 
       zoneList[i].name == 'vehicleDeleter' or 
@@ -315,12 +307,6 @@ function takeService(work, value)
     end)
   end
 end
-RegisterNetEvent('esx_brinks:updateService')
-AddEventHandler('esx_brinks:updateService', function(inService)
-  printDebug('updateService')
-  Citizen.Wait(2000)
-  takeService(inService, 'job_wear')
-end)
 
 -- menu brinks
 function openBrinksActionsMenu()
