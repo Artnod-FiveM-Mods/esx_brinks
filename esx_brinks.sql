@@ -18,12 +18,12 @@ INSERT INTO `addon_inventory` (name, label, shared) VALUES
 INSERT INTO `job_grades` (`job_name`, `grade`, `name`, `label`, `salary`, `skin_male`, `skin_female`) VALUES
 	('brinks', 0, 'interim', 'Recrue convoyeur', 100, '{}', '{}'),
 	('brinks', 1, 'employee', 'Convoyeur de fonds', 100, '{}', '{}'),
-	('brinks', 2, 'chief', 'Chef d\'équipe', 100, '{}', '{}'),
+	('brinks', 2, 'chief', 'Chef d\'Ã©quipe', 100, '{}', '{}'),
 	('brinks', 3, 'boss'  , 'Patron', 100, '{}', '{}')
 ;
 
 INSERT INTO `items` (`name`, `label`, `limit`, `rare`, `can_remove`) VALUES
-	('sacbillets', 'Sac de Billets', 20, 0, 1)
+	('sacbillets', 'Sac de Billets', 1, 0, 1)
 ;
 
 CREATE TABLE IF NOT EXISTS `weekly_run` (
