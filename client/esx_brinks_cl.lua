@@ -60,7 +60,6 @@ Citizen.CreateThread(function()
     inVehicle  = IsPedInAnyVehicle(playerPed, 0)
     if isWorking and playerData.job.name ~= Config.nameJob then
       isWorking = false
-      TriggerServerEvent('esx_brinks:takeService', isWorking)
       if isRunning and playerData.job.name ~= Config.nameJob then isRunning = false end
     end
   end
