@@ -25,7 +25,7 @@ Brinks Company for ESX
 
 # Legal
 ### License
-Artnod-FiveM-Mods/Downtime  
+Artnod-FiveM-Mods/esx_brinks  
 
 This program is licensed under the GNU General Public License v3.0  
 
