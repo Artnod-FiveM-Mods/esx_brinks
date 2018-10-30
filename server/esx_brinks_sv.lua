@@ -9,8 +9,8 @@ local playersNativeSellExit = {}
 local playersBlackHarvest = {}
 local playersBlackHarvestExit = {}
 
-local playersBlackHarvest = {}
-local playersBlackHarvestExit = {}
+local playersBlackDestruct = {}
+local playersBlackDestructExit = {}
 
 -- debug msg
 function printDebug(msg)
@@ -165,8 +165,8 @@ end)
 function weeklyDestruct(source)
   printDebug('weeklyDestruct')
   SetTimeout(Config.blackTime, function()
-    if playersBlackHarvestExit[source] then playersBlackHarvest[source] = false end
-    if playersBlackHarvest[source] == true then
+    if playersBlackDestructExit[source] then playersBlackDestruct[source] = false end
+    if playersBlackDestruct[source] == true then
       local xPlayer = ESX.GetPlayerFromId(source)
       local account = xPlayer.getAccount('black_money')
       local amountR = math.floor((Config.blackRemove-(Config.blackRemove % 1000))/1000) .. ' '
@@ -176,7 +176,7 @@ function weeklyDestruct(source)
       amountR = amountR .. amountRBis
       if account.money < Config.blackRemove then
         TriggerClientEvent('esx:showNotification', source, _U('need_more_bm', amountR))
-        playersBlackHarvest[source] = false
+        playersBlackDestruct[source] = false
       else
         xPlayer.removeAccountMoney('black_money', Config.blackRemove)
         TriggerEvent('esx_addonaccount:getSharedAccount', 'society_brinks', function(account)account.addMoney(Config.blackPrice)end)
@@ -196,7 +196,7 @@ function weeklyDestruct(source)
         if account.money >= Config.blackRemove then weeklyDestruct(source)
         else 
           TriggerClientEvent('esx:showNotification', source, _U('weekly_destruct_stop'))
-          playersBlackHarvest[source] = false
+          playersBlackDestruct[source] = false
         end
       end
     else TriggerClientEvent('esx:showNotification', source, _U('weekly_destruct_fail')) end
@@ -206,13 +206,13 @@ RegisterServerEvent('esx_brinks:startWeeklyDestruct')
 AddEventHandler('esx_brinks:startWeeklyDestruct', function()
   printDebug('startWeeklyDestruct')
   local _source = source
-  if not playersBlackHarvest[_source] then
+  if not playersBlackDestruct[_source] then
     TriggerClientEvent('esx:showNotification', _source, _U('weekly_destruct_start'))
-    playersBlackHarvest[_source] = true
-    playersBlackHarvestExit[_source] = false
+    playersBlackDestruct[_source] = true
+    playersBlackDestructExit[_source] = false
     weeklyDestruct(_source)
   end
-  if playersBlackHarvestExit[_source] then
+  if playersBlackDestructExit[_source] then
     TriggerClientEvent('esx:showNotification', _source, _U('dont_cheat'))
   end
 end)
@@ -220,7 +220,7 @@ RegisterServerEvent('esx_brinks:stopWeeklyDestruct')
 AddEventHandler('esx_brinks:stopWeeklyDestruct', function()
   printDebug('stopWeeklyDestruct')
   local _source = source
-  if playersBlackHarvest[_source]then playersBlackHarvestExit[_source] = true end
+  if playersBlackDestruct[_source]then playersBlackDestructExit[_source] = true end
 end)
 
 -- get Storage
