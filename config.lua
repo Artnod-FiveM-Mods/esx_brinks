@@ -66,11 +66,11 @@ Config.zones = {
   },
   northBank = {
     enable = false,
-    gps    = {x=4.992631, y=-662.67, z=32.5},
+    gps    = {x=-103.74, y=6477.91, z=30.62},
     markerD = {type=27, drawDistance=50.0, size={x=2.0, y=2.0, z=1.5}, color={r=11, g=203, b=159} },
     blipD   = {sprite=67, display=4, scale=0.9, color=52, range=true, name=_U('northBank_blip') }
   },
-  unionDepository = { -- {x=-103.74, y=6477.91, z=30.62},
+  unionDepository = {
     enable = false,
     gps    = {x=9.97, y=-667.64, z=32.5},
     markerD = {type=27, drawDistance=50.0, size={x=2.0, y=2.0, z=1.5}, color={r=11, g=203, b=159} },
