@@ -70,9 +70,9 @@ Config.zones = {
     markerD = {type=27, drawDistance=50.0, size={x=2.0, y=2.0, z=1.5}, color={r=11, g=203, b=159} },
     blipD   = {sprite=67, display=4, scale=0.9, color=52, range=true, name=_U('northBank_blip') }
   },
-  unionDepository = { -- {x=9.97, y=-667.64, z=32.5},
+  unionDepository = { -- {x=-103.74, y=6477.91, z=30.62},
     enable = false,
-    gps    = {x=-103.74, y=6477.91, z=30.62},
+    gps    = {x=9.97, y=-667.64, z=32.5},
     markerD = {type=27, drawDistance=50.0, size={x=2.0, y=2.0, z=1.5}, color={r=11, g=203, b=159} },
     blipD   = {sprite=67, display=4, scale=0.9, color=52, range=true, name=_U('unionDepository_blip') }
   },
