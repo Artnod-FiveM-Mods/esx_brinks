@@ -18,8 +18,8 @@ function printDebug(msg)
 end
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-TriggerEvent('esx_phone:registerNumber', Config.nameJob, 'Client '..Config.companyName, false, false)
-TriggerEvent('esx_society:registerSociety', Config.nameJob, Config.companyName, Config.companyLabel, Config.companyLabel, Config.companyLabel, {type = 'private'})
+TriggerEvent('esx_phone:registerNumber', Config.jobName, 'Client '..Config.companyName, false, false)
+TriggerEvent('esx_society:registerSociety', Config.jobName, Config.companyName, Config.companyLabel, Config.companyLabel, Config.companyLabel, {type = 'private'})
 
 -- nativeRun harvest
 function nativeHarvest(source)
@@ -125,7 +125,7 @@ function weeklyCollect(source)
   SetTimeout(Config.blackTime, function()
     if playersBlackHarvestExit[source] then playersBlackHarvest[source] = false end
     if playersBlackHarvest[source] then
-      local request = "SELECT start_date, harvest, sell, malus FROM weekly_run WHERE company = '" .. Config.nameJob .. "'"
+      local request = "SELECT start_date, harvest, sell, malus FROM weekly_run WHERE company = '" .. Config.jobName .. "'"
       local response = MySQL.Sync.fetchAll(request) -- [{"harvest":0,"malus":0,"sell":0,"start_date":0},]
       local tmpTime = os.time()
       if tmpTime >= response[1].start_date then
@@ -136,7 +136,7 @@ function weeklyCollect(source)
          else
            xPlayer.addAccountMoney('black_money', Config.blackAdd)
            response[1].harvest = response[1].harvest + 1
-           request = "UPDATE weekly_run SET harvest = ".. response[1].harvest .. " WHERE company = '" .. Config.nameJob .. "'"
+           request = "UPDATE weekly_run SET harvest = ".. response[1].harvest .. " WHERE company = '" .. Config.jobName .. "'"
            local resp = MySQL.Sync.fetchScalar(request)
            if response[1].harvest == Config.blackStep - response[1].malus  then TriggerClientEvent('esx:showNotification', source, _U('return_bank',response[1].harvest, Config.blackStep - response[1].malus))
            else TriggerClientEvent('esx:showNotification', source, _U('depose_and_retry',response[1].harvest, Config.blackStep - response[1].malus)) end
@@ -186,9 +186,9 @@ function weeklyDestruct(source)
       else
         xPlayer.removeAccountMoney('black_money', Config.blackRemove)
         TriggerEvent('esx_addonaccount:getSharedAccount', 'society_brinks', function(account)account.addMoney(Config.blackPrice)end)
-        local request = "SELECT start_date, harvest, sell, malus FROM weekly_run WHERE company = '" .. Config.nameJob .. "'"
+        local request = "SELECT start_date, harvest, sell, malus FROM weekly_run WHERE company = '" .. Config.jobName .. "'"
         local response = MySQL.Sync.fetchAll(request) -- [{"harvest":0,"malus":0,"sell":0,"start_date":0},]
-        request = "UPDATE weekly_run SET sell = ".. response[1].sell + 1 .. " WHERE company = '" .. Config.nameJob .. "'"
+        request = "UPDATE weekly_run SET sell = ".. response[1].sell + 1 .. " WHERE company = '" .. Config.jobName .. "'"
         local resp = MySQL.Sync.fetchScalar(request)
         
         local amountP = math.floor((Config.blackPrice-(Config.blackPrice % 1000))/1000) .. ' '
@@ -341,7 +341,7 @@ end)
 function weeklyTask(d, h, m)
   printDebug('weeklyTask')
   if d == 2 then
-    local request = "SELECT harvest, sell, malus FROM weekly_run WHERE company = '" .. Config.nameJob .. "'"
+    local request = "SELECT harvest, sell, malus FROM weekly_run WHERE company = '" .. Config.jobName .. "'"
     local response = MySQL.Sync.fetchAll(request) -- [{"harvest":0,"malus":0,"sell":0,"start_date":0},]
     if response[1].harvest ~= 0 then
       if response[1].sell < response[1].harvest then response[1].malus = response[1].malus + 1
@@ -349,7 +349,7 @@ function weeklyTask(d, h, m)
       if response[1].malus < 0 then response[1].malus = 0
       elseif response[1].malus >= Config.blackStep then response[1].malus = Config.blackStep - 1 end
     end
-    request = "UPDATE weekly_run SET start_date = ".. os.time() .. ", malus = " .. response[1].malus .. ", harvest = 0, sell = 0 WHERE company = '" .. Config.nameJob .. "'"
+    request = "UPDATE weekly_run SET start_date = ".. os.time() .. ", malus = " .. response[1].malus .. ", harvest = 0, sell = 0 WHERE company = '" .. Config.jobName .. "'"
     response = MySQL.Sync.fetchAll(request) 
   end
 end

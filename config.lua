@@ -3,13 +3,13 @@ Config.Locale     = 'fr'
 Config.debug      = true
 Config.debugPrint = '[esx_brinks]'
 
-Config.nameJob      = 'brinks'
+Config.jobName      = 'brinks'
 Config.companyLabel = 'society_brinks'
 Config.companyName  = 'Brinks'
 Config.platePrefix  = 'BRINKS'
 
 Config.storageMinGrade = 1
-Config.armoryMinGrade  = 2
+Config.armoryMinGrade  = 2 -- armory and boss car
 Config.manageMinGrade  = 3
 Config.weeklyMinGrade  = 2
 
