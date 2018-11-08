@@ -1,6 +1,6 @@
 description 'ESX brinks'
 
-version '0.6'
+version '0.7'
 
 dependencies {
   "mysql-async",

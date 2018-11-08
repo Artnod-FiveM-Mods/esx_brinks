@@ -1,14 +1,16 @@
 USE `essentialmode`;
 
 INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
-	('brinks', 'Brinks', 1)
+	('brinks', 'Brinks', 0)
 ;
+
 INSERT INTO `datastore` (name, label, shared) VALUES
 	('society_brinks', 'Brinks', 1)
 ;
 
 INSERT INTO `addon_account` (name, label, shared) VALUES
-	('society_brinks', 'Brinks', 1)
+	('society_brinks', 'Brinks', 1),
+	('society_taxe_brinks', 'Brinks Taxe', 1)
 ;
 
 INSERT INTO `addon_inventory` (name, label, shared) VALUES

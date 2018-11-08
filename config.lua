@@ -1,10 +1,12 @@
 Config            = {}
 Config.Locale     = 'fr'
-Config.debug      = false
+Config.debug      = true
 Config.debugPrint = '[esx_brinks]'
 
-Config.nameJob      = "brinks"
-Config.platePrefix  = "BRINKS"
+Config.nameJob      = 'brinks'
+Config.companyLabel = 'society_brinks'
+Config.companyName  = 'Brinks'
+Config.platePrefix  = 'BRINKS'
 
 Config.storageMinGrade = 1
 Config.armoryMinGrade  = 2
@@ -13,11 +15,13 @@ Config.weeklyMinGrade  = 2
 
 -- native run
 Config.itemTime     = 2500
-Config.itemDb_name  = "sacbillets"
-Config.itemName     = "Sac de Billets"
+Config.itemDb_name  = 'sacbillets'
+Config.itemName     = 'Sac de Billets'
 Config.itemAdd      = 1
 Config.itemRemove   = 1
 Config.itemPrice    = 100
+Config.companyRate  = 0.8
+Config.gouvRate     = 0.05
 
 -- weekly run
 Config.blackTime    = 7500
@@ -79,33 +83,44 @@ Config.zones = {
 }
 
 Config.market = {
-  {x=-46.13047 ,y=-1758.271 ,z=28.43 },
-  {x=1133.697  ,y=-982.4708 ,z=45.42 },
-  {x=1165.317  ,y=-322.3742 ,z=68.21 },
-  {x=372.9026  ,y=328.7234  ,z=102.58},
-  {x=-1485.86  ,y=-377.6055 ,z=39.17 },
-  {x=-1221.643 ,y=-908.7925 ,z=11.33 },
-  {x=-705.5613 ,y=-913.527  ,z=18.22 },
-  {x=-2965.91  ,y=390.7833  ,z=14.06 },
-  {x=-3242.203 ,y=999.7093  ,z=11.84 },
-  {x=-1819.728 ,y=794.6349  ,z=137.09},
-  {x=549.6006  ,y=2669.001  ,z=41.17 },
-  {x=1165.902  ,y=2711.337  ,z=37.17 },
-  {x=1958.744  ,y=3741.852  ,z=31.35 },
-  {x=1697.708  ,y=4922.295  ,z=41.08 },
-  {x=2675.866  ,y=3280.38   ,z=54.25 },
-  {x=2555.058  ,y=380.6407  ,z=107.63},
-  {x=1728.768  ,y=6417.453  ,z=34.05 },
+  { -- center
+    {x=-46.13047 ,y=-1758.271 ,z=28.43 },
+    {x=1133.697  ,y=-982.4708 ,z=45.42 },
+    {x=1165.317  ,y=-322.3742 ,z=68.21 },
+    {x=372.9026  ,y=328.7234  ,z=102.58},
+    {x=-1485.86  ,y=-377.6055 ,z=39.17 },
+    {x=-1221.643 ,y=-908.7925 ,z=11.33 },
+    {x=-705.5613 ,y=-913.527  ,z=18.22 },
+  },
+  { -- east coast
+    {x=-2965.91  ,y=390.7833  ,z=14.06 },
+    {x=-3242.203 ,y=999.7093  ,z=11.84 },
+    {x=-1819.728 ,y=794.6349  ,z=137.09},
+  },
+  { -- west coast
+    {x=2555.058  ,y=380.6407  ,z=107.63},
+  },
+  {  -- sandy shore
+    {x=2675.866  ,y=3280.38   ,z=54.25 },
+    {x=549.6006  ,y=2669.001  ,z=41.17 },
+    {x=1165.902  ,y=2711.337  ,z=37.17 },
+    {x=1958.744  ,y=3741.852  ,z=31.35 },
+    {x=1697.708  ,y=4922.295  ,z=41.08 },
+  },
+  { -- paleto
+    {x=1728.768  ,y=6417.453  ,z=34.05 }
+  }
 }
+
 
 Config.vehicles = {
   truck = {
     label   = 'Fourgon',
-    hash    = "stockade"
+    hash    = 'stockade'
   },
   bossCar = {
     label   = 'Voiture Commercial',
-    hash    = "Patriot"
+    hash    = 'Patriot'
   }
 }
 

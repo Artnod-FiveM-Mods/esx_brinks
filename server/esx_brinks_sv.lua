@@ -14,12 +14,12 @@ local playersBlackDestructExit = {}
 
 -- debug msg
 function printDebug(msg)
-  if Config.debug then print(Config.debugPrint ..'\t'.. msg) end
+  if Config.debug then print(Config.debugPrint ..' '.. msg) end
 end
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-TriggerEvent('esx_phone:registerNumber', 'brinks', 'Client Brinks', false, false)
-TriggerEvent('esx_society:registerSociety', 'brinks', 'Brinks', 'society_brinks', 'society_brinks', 'society_brinks', {type = 'private'})
+TriggerEvent('esx_phone:registerNumber', Config.nameJob, 'Client '..Config.companyName, false, false)
+TriggerEvent('esx_society:registerSociety', Config.nameJob, Config.companyName, Config.companyLabel, Config.companyLabel, Config.companyLabel, {type = 'private'})
 
 -- nativeRun harvest
 function nativeHarvest(source)
@@ -77,9 +77,15 @@ function nativeSell(source)
         local amount = Config.itemRemove
         local item = Config.itemDb_name
         xPlayer.removeInventoryItem(item, amount)
+        
         xPlayer.addMoney(Config.itemPrice)
-        local companyPrice = Config.itemPrice * 2
+        local companyPrice = math.floor(Config.itemPrice * Config.companyRate)
+        local gouvTaxe = math.floor(companyPrice * Config.gouvRate)
         TriggerEvent('esx_addonaccount:getSharedAccount', 'society_brinks', function(account)account.addMoney(companyPrice)end )
+        TriggerEvent('esx_addonaccount:getSharedAccount', 'society_taxe_brinks', function(account)account.addMoney(gouvTaxe)end )
+        
+        
+        
         TriggerClientEvent('esx:showNotification', source, _U('you_earned', Config.itemPrice))
         TriggerClientEvent('esx:showNotification', source, _U('your_comp_earned', companyPrice))
         quantity = xPlayer.getInventoryItem(Config.itemDb_name).count
