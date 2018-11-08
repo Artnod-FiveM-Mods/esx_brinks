@@ -1,4 +1,4 @@
-local Keys = {["F6"] = 167, ["F7"] = 168, ["E"] = 38, ["DELETE"] = 178}
+local Keys = {["F6"] = 167, ["E"] = 38, ["DELETE"] = 178}
 local isLoading         = true
 
 ESX                     = nil
@@ -226,7 +226,7 @@ Citizen.CreateThread(function()
   while isLoading do Citizen.Wait(10) end
   while true do
     Citizen.Wait(0)
-    if IsControlJustReleased(1, Keys["F7"]) and isWorking then openMobileBrinksMenu() end
+    if IsControlJustReleased(1, Keys["F6"]) and isWorking then openMobileBrinksMenu() end
     if currentAction ~= nil then
       SetTextComponentFormat('STRING')
       AddTextComponentString(currentActionMsg)
